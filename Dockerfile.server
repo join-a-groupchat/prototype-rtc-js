@@ -1,0 +1,15 @@
+# Dockerfile.server
+FROM node:20-bullseye-slim
+
+WORKDIR /app
+
+# Copy and install production deps
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Copy server code and public static files
+COPY server.js ./
+COPY public ./public
+
+EXPOSE 9001
+CMD ["node", "server.js"]

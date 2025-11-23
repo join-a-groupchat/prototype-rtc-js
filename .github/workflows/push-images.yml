@@ -1,0 +1,34 @@
+name: Build and push images to GHCR
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & push server image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository_owner }}/server:latest
+          docker build -t $IMAGE -f Dockerfile.server .
+          docker push $IMAGE
+
+      - name: Build & push consumer image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository_owner }}/consumer:latest
+          docker build -t $IMAGE -f Dockerfile.consumer .
+          docker push $IMAGE
