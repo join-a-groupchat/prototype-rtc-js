@@ -2,16 +2,7 @@ name: Trigger auto deployment for rtc-consumer-app
 
 # When this action will be executed
 on:
-  # Automatically trigger it when detected changes in repo
-  push:
-    branches: 
-      [ main ]
-    paths:
-    - '**'
-    - '.github/workflows/rtc-consumer-app-AutoDeployTrigger-e17f1009-f184-415b-8ea0-e11f21650981.yml'
-
-  # Allow manual trigger 
-  workflow_dispatch:      
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
