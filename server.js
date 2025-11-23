@@ -24,7 +24,7 @@ uWS.App()
       clients.add(ws);
       console.log('A user connected. Total:', clients.size);
 
-      ws.send(JSON.stringify({ type: 'system', message: 'Welcome to the chat! This app version was updated by CI/CD' }));
+      ws.send(JSON.stringify({ type: 'system', message: 'Welcome to the chat! Version 1.0.1' }));
       broadcast({ type: 'system', message: 'A new user joined the chat.' }, ws);
 
       // Load last 10 messages from Redis
