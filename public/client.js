@@ -1,5 +1,5 @@
 const username = prompt("Enter your username:");
-const socket = new WebSocket(`ws://${location.host}`);
+const socket = new WebSocket(`wss://${location.host}`);
 
 const messages = document.getElementById('messages');
 const msgBox = document.getElementById('msgBox');
