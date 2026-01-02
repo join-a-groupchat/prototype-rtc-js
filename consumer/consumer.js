@@ -1,4 +1,3 @@
-// consumer-group-batched.js (updated)
 import { createClient } from "redis";
 import { Pool  } from "pg";
 import pLimit from "p-limit";
@@ -49,7 +48,7 @@ async function ensureGroup() {
     await redis.xGroupCreate(STREAM, GROUP, '0', { MKSTREAM: true });
     console.log(`Created group ${GROUP}`);
   } catch (err) {
-    if (err.message && err.message.includes('BUSYGROUP')) {
+    if (err.message?.includes('BUSYGROUP')) {
       console.log(`Group ${GROUP} already exists`);
     } else {
       console.error("Error creating group:", err);
@@ -60,7 +59,7 @@ async function ensureGroup() {
 await ensureGroup();
 
 // In-memory buffer and flush scheduling
-let buffer = []; // { id, fields }
+let buffer = [];
 let flushTimer = null;
 const limit = pLimit(FLUSH_CONCURRENCY);
 let shuttingDown = false;
@@ -80,7 +79,7 @@ async function triggerFlush() {
 
 // flush batch to Postgres and ACK in Redis
 async function flushToDbAndAck(msgs) {
-  if (!msgs || !msgs.length) return;
+  if (!msgs?.length) return;
   const values = [];
   const placeholders = [];
   let idx = 1;
@@ -107,7 +106,9 @@ async function flushToDbAndAck(msgs) {
     await pgPool.query(sql, values);
     await pgPool.query('COMMIT');
   } catch (err) {
-    await pgPool.query('ROLLBACK').catch(()=>{});
+    await pgPool.query('ROLLBACK').catch((rollbackErr) => {
+      console.error("DB ROLLBACK error:", rollbackErr?.message || rollbackErr);
+    });
     console.error("DB insert error, requeueing batch:", err.message || err);
     buffer = msgs.concat(buffer);
     await new Promise(r => setTimeout(r, 200));
@@ -125,7 +126,7 @@ async function flushToDbAndAck(msgs) {
 // helper
 function chunkArray(arr, n) {
   const out = [];
-  for (let i=0;i<arr.length;i+=n) out.push(arr.slice(i,i+n));
+  for (let i = 0; i < arr.length; i += n) out.push(arr.slice(i, i + n));
   return out;
 }
 
@@ -140,7 +141,7 @@ async function recoverPending() {
       const res = await redis.xAutoClaim(STREAM, GROUP, CONSUMER, CLAIM_MIN_IDLE_MS, startId, { COUNT: CLAIM_COUNT });
       if (!res) break;
       const nextId = res[0];
-      const rawMsgs = (res[1] || res[1]) ?? [];
+      const rawMsgs = res[1] ?? [];
       if (!rawMsgs || rawMsgs.length === 0) break;
 
       // normalize format into [{id, fields}]
@@ -190,7 +191,7 @@ async function loop() {
         buffer.push({ id, fields });
         if (buffer.length === 1) scheduleFlush();
         if (buffer.length >= BATCH_SIZE) {
-          triggerFlush().catch(e => console.error("triggerFlush error:", e));
+          await triggerFlush();
         }
       }
     } catch (err) {
@@ -207,8 +208,8 @@ process.on('SIGINT', async () => {
   if (flushTimer) { clearTimeout(flushTimer); flushTimer = null; }
   await triggerFlush();
   await limit(() => Promise.resolve());
-  await pgPool.end().catch(()=>{});
-  await redis.disconnect().catch(()=>{});
+  await pgPool.end().catch(err => console.error("Error during pgPool shutdown:", err));
+  await redis.disconnect().catch(err => console.error("Error during Redis shutdown:", err));
   process.exit(0);
 });
 
