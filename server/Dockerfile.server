@@ -8,8 +8,8 @@ COPY package*.json ./
 RUN npm ci --only=production
 
 # Copy server code and public static files
-COPY server-fanout.js ./
-COPY ../public ./public
+COPY server/server-fanout.js ./
+COPY public ./public
 
 EXPOSE 9001
 CMD ["node", "server-fanout.js"]
