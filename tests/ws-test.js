@@ -2,7 +2,7 @@ import ws from "k6/ws";
 import { sleep } from "k6";
 
 export const options = {
-  vus: 500,
+  vus: 1000,
   duration: "30s",
 };
 

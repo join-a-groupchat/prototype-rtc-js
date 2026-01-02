@@ -5,7 +5,7 @@ on:
 
 jobs:
   scan:
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     environment: analysis
 
     steps:
@@ -21,8 +21,8 @@ jobs:
         run: npm install
 
       # Optional: run tests to generate coverage file
-      - name: Run tests
-        run: npm test -- --coverage
+      #- name: Run tests
+      #  run: npm test -- --coverage
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@v2

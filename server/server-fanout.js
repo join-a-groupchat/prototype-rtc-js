@@ -75,7 +75,7 @@ uWS.App()
       })();
     },
 
-    message: (ws, message, isBinary) => {
+    message: async (ws, message, isBinary) => {
       const text = Buffer.from(message).toString();
 
       try {
@@ -89,11 +89,10 @@ uWS.App()
           broadcastLocal(messageWithSource);
           
           /* 4. Publish to Redis so OTHER instances rebroadcast */
-          redis.publish("chat_channel", JSON.stringify(messageWithSource))
-          .catch(err => { console.error('Redis publish error:', err); });
+          await redis.publish("chat_channel", JSON.stringify(messageWithSource));
 
           /* 5. Save to Redis Streams */
-          redis.xAdd(
+          await redis.xAdd(
             "chat_stream", 
             "*", 
             { 
@@ -101,7 +100,7 @@ uWS.App()
                 message: data.message + "", 
                 timestamp: Date.now().toString()
             }, 
-          ).catch(err => { console.error('Redis XADD error:', err); });
+          );
         }
       } catch (err) {
         console.error('Invalid message:', err);
@@ -118,7 +117,7 @@ uWS.App()
   // Static file serving
   .get('/*', (res, req) => {
     const filePath = req.getUrl() === '/' ? '/index.html' : req.getUrl();
-    const fullPath = path.join(process.cwd(), 'public', filePath);
+    const fullPath = path.join(process.cwd(), '../public', filePath);
     try {
       const data = fs.readFileSync(fullPath);
       res.writeStatus('200 OK');

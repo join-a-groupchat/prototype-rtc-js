@@ -1,4 +1,3 @@
-// optimized-redis-consumer.js
 import { createClient } from "redis";
 import dotenv from 'dotenv';
 dotenv.config({ path: '../config/.env' });
