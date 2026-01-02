@@ -24,11 +24,11 @@ jobs:
       - name: Build & push server image
         run: |
           IMAGE=ghcr.io/rubinskiy/server:latest
-          docker build -t $IMAGE -f Dockerfile.server .
+          docker build -t $IMAGE -f server/Dockerfile.server .
           docker push $IMAGE
 
       - name: Build & push consumer image
         run: |
           IMAGE=ghcr.io/rubinskiy/consumer:latest
-          docker build -t $IMAGE -f Dockerfile.consumer .
+          docker build -t $IMAGE -f consumer/Dockerfile.consumer .
           docker push $IMAGE
