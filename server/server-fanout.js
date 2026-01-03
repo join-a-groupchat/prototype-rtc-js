@@ -117,7 +117,7 @@ uWS.App()
   // Static file serving
   .get('/*', (res, req) => {
     const filePath = req.getUrl() === '/' ? '/index.html' : req.getUrl();
-    const fullPath = path.join(process.cwd(), '../public', filePath);
+    const fullPath = path.join(process.cwd(), 'public', filePath);
     try {
       const data = fs.readFileSync(fullPath);
       res.writeStatus('200 OK');
