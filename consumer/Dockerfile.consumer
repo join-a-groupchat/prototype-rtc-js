@@ -7,13 +7,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production
 
-<<<<<<< HEAD
-# Copy app code
-COPY consumer.js ./
-
-# Small health-check-friendly default command
-CMD ["node", "consumer.js"]
-=======
 # Copy consumer modular codebase structure
 COPY consumer/ ./consumer/
 
@@ -24,4 +17,3 @@ COPY config/ ./config/
 
 # Small health-check-friendly default command
 CMD ["node", "consumer/consumer.js"]
->>>>>>> df1bb8650cdbf1b2ac6980f1532d9e271aa93a77
