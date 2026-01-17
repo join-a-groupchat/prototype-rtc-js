@@ -9,8 +9,16 @@
   },
   "dependencies": {
     "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "p-limit": "^7.2.0",
     "pg": "^8.16.3",
     "redis": "^5.9.0",
-    "uWebSockets.js": "uNetworking/uWebSockets.js#v20.44.0"
+    "socket.io": "^4.8.1",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.44.0",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0"
   }
 }

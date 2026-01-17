@@ -5,7 +5,8 @@ npm-debug.log
 # Environment files
 .env
 .env.local
-.env.*.local
+.env.prod
+config
 
 # Git
 .git
@@ -37,3 +38,6 @@ docker-compose*.yml
 dist
 build
 
+# ignore tests
+tests
+coverage

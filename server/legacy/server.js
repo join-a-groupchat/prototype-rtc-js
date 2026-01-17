@@ -1,7 +1,8 @@
 import uWS from 'uWebSockets.js';
-import fs from 'fs';
-import path from 'path';
-import 'dotenv/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import dotenv from 'dotenv';
+dotenv.config({ path: '../config/.env' });
 
 // Redis client setup
 import { createClient } from "redis";
@@ -25,13 +26,13 @@ uWS.App()
       console.log('A user connected. Total:', clients.size);
 
       ws.send(JSON.stringify({ type: 'system', message: 'Welcome to the chat! Version 1.0.1' }));
-      broadcast({ type: 'system', message: 'A new user joined the chat.' }, ws);
+      broadcast({ type: 'system', message: 'A new user joined the chat.' });
 
       // Load last 10 messages from Redis
       (async () => {
         const messages = await redis.xRevRange("chat_stream", "+", "-", { COUNT: 10 });
         // Reverse to show oldest first
-        messages.reverse().forEach(msg => {
+        messages.toReversed().forEach(msg => {
           // msg.message is an object with user, message, timestamp fields
           const fields = msg.message || {};
           ws.send(JSON.stringify({ 
@@ -48,7 +49,7 @@ uWS.App()
       try {
         const data = JSON.parse(text);
         if (data.type === 'chat') {
-          broadcast({ type: 'chat', username: data.username, message: data.message }, ws);
+          broadcast({ type: 'chat', username: data.username, message: data.message });
 
           // Store message in Redis
           await redis.xAdd("chat_stream", "*", { 
@@ -71,7 +72,7 @@ uWS.App()
     close: (ws, code, msg) => {
       clients.delete(ws);
       console.log('User disconnected. Total:', clients.size);
-      broadcast({ type: 'system', message: 'A user has left the chat.' }, ws);
+      broadcast({ type: 'system', message: 'A user has left the chat.' });
     },
   })
 

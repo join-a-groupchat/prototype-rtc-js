@@ -1,0 +1,40 @@
+name: SonarQube Scan
+
+on:
+  workflow_run:
+    workflows: ["Unit Tests for Server"]
+    types:
+      - completed
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    environment: analysis
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+
+      # Optional: run tests to generate coverage file
+      #- name: Run tests
+      #  run: npm test -- --coverage
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v2
+        with:
+          projectBaseDir: server
+          args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
