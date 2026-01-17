@@ -1,10 +1,9 @@
 name: SonarQube Scan
 
 on:
-  workflow_run:
-    workflows: ["Unit Tests for Server"]
-    types:
-      - completed
+  pull_request:
+    branches:
+      - staging
 
 jobs:
   scan:
