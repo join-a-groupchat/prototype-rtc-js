@@ -1,7 +1,9 @@
 name: Build and push images to GHCR
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read

@@ -7,9 +7,16 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production
 
-# Copy server code and public static files
-COPY server/server-fanout.js ./
-COPY public ./public
+# Copy server modular codebase structure
+COPY server/ ./server/
+
+# Copy config directory (for .env file structure)
+# Note: .env file should be provided via environment variables in production
+# The config directory should exist in the repo (even if empty)
+COPY config/ ./config/
+
+# Copy public static files
+COPY public/ ./public/
 
 EXPOSE 9001
-CMD ["node", "server-fanout.js"]
+CMD ["node", "server/server-fanout.js"]

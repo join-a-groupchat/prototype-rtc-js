@@ -49,22 +49,10 @@ Stop all instances
 pm2 stop all
 ```
 
-### Testing?
+### Testing >>
 
+Server Unit Tests
 ```bash
-
+cd server
+npm run test:unit
 ```
-
-
-
-
-https://www.youtube.com/watch?v=jgpVdJB2sKQ
-
-aks tutorial 
-https://www.youtube.com/watch?v=dkPsslnKK1Y
-
-network chuck kubernetes
-https://www.youtube.com/watch?v=7bA0gTroJjw
-
-create aks cluter in azure
-https://www.youtube.com/watch?v=RUoejLILgyA

@@ -16,5 +16,9 @@
     "socket.io": "^4.8.1",
     "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.44.0",
     "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0"
   }
 }
