@@ -2,12 +2,13 @@ import { createClient } from "redis";
 import { Pool } from "pg";
 import pLimit from "p-limit";
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 dotenv.config({ path: '../config/.env' });
 
 // use consumer groups because we can have multiple consumers
 const STREAM = process.env.STREAM_KEY || "chat_stream";
 const GROUP = process.env.CONSUMER_GROUP || "cg1";
-const CONSUMER = process.env.CONSUMER_NAME || `c-${Math.random().toString(36).slice(2,8)}`;
+const CONSUMER = process.env.CONSUMER_NAME || `c-${Array.from(crypto.getRandomValues(new Uint8Array(6)), byte => (byte % 36).toString(36)).join('')}`;
 
 // Redis
 const redis = createClient({ url: process.env.REDIS_URL || `redis://:${process.env.REDIS_PWD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}` });

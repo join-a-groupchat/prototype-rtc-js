@@ -2,6 +2,7 @@ import uWS from 'uWebSockets.js';
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 import { Pool  } from "pg";
 dotenv.config({ path: '../config/.env' });
 
@@ -36,7 +37,7 @@ pgPool.on('error', (err) => {
 console.log("✅ Postgres pool created");
 
 const PORT = 9001;
-const SERVER_ID = Math.random().toString(36).slice(2);
+const SERVER_ID = `s-${Array.from(crypto.getRandomValues(new Uint8Array(6)), byte => (byte % 36).toString(36)).join('')}`;
 console.log("Server ID:", SERVER_ID);
 
 // In-memory list of connected users

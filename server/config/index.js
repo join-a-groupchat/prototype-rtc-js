@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 
 // Load environment variables
 dotenv.config({ path: '../config/.env' });
@@ -20,7 +21,7 @@ if (missingVars.length > 0) {
 // Server configuration
 export const SERVER_CONFIG = {
   PORT: Number(process.env.PORT) || 9001,
-  SERVER_ID: Math.random().toString(36).slice(2),
+  SERVER_ID: `s-${Array.from(crypto.getRandomValues(new Uint8Array(6)), byte => (byte % 36).toString(36)).join('')}`,
   ALLOWED_ORIGINS: [
     'http://localhost:5173', 
     'http://127.0.0.1:5173', 

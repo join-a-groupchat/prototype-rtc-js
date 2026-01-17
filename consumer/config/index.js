@@ -4,6 +4,7 @@
  */
 
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 
 // Load environment variables
 dotenv.config({ path: '../config/.env' });
@@ -15,7 +16,7 @@ export const redisConfig = {
   url: process.env.REDIS_URL || `redis://:${process.env.REDIS_PWD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
   stream: process.env.STREAM_KEY || "chat_stream",
   group: process.env.CONSUMER_GROUP || "cg1",
-  consumer: process.env.CONSUMER_NAME || `c-${Math.random().toString(36).slice(2,8)}`,
+consumer: process.env.CONSUMER_NAME || `c-${Array.from(crypto.getRandomValues(new Uint8Array(6)), byte => (byte % 36).toString(36)).join('')}`,
 };
 
 /**
