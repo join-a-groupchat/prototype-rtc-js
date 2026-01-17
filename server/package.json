@@ -15,7 +15,6 @@
   },
   "jest": {
     "preset": null,
-    "extensionsToTreatAsEsm": [".js"],
     "testEnvironment": "node",
     "roots": ["<rootDir>/tests"],
     "testMatch": [
