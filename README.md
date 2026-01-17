@@ -1,4 +1,4 @@
-# prototype-rtc-js
+# Real Time Chat
 
 A real-time, scalable group chat application built with uWebSockets.js, Redis, and PostgreSQL. This application demonstrates enterprise-grade resilience patterns including distributed message processing, automatic failover, graceful shutdown, and robust error recovery mechanisms.
 
