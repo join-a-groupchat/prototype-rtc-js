@@ -1,9 +1,6 @@
 const username = prompt("Enter your username:");
 const socket = new WebSocket(`ws://${location.host}`);
-<<<<<<< HEAD
-=======
 socket.binaryType = "text";
->>>>>>> df1bb8650cdbf1b2ac6980f1532d9e271aa93a77
 
 const messages = document.getElementById("messages");
 const msgBox = document.getElementById("msgBox");
