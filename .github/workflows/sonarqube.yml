@@ -22,13 +22,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Optional: run tests to generate coverage file
-      #- name: Run tests
-      #  run: npm test -- --coverage
+      - name: Run tests with coverage
+        working-directory: server
+        run: npm run test:unit -- --coverage
+
+      - name: Fix lcov paths for SonarCloud
+        run: sed -i 's|\\|/|g' server/coverage/lcov.info
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@v2
         with:
+          projectBaseDir: server
           args: >
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
