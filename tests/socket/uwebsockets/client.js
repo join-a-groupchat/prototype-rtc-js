@@ -36,4 +36,8 @@ function sendMessage() {
 }
 
 sendBtn.onclick = sendMessage;
-msgBox.onkeydown = e => e.key === "Enter" && sendMessage();
+msgBox.onkeydown = e => {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
+};

@@ -1,0 +1,63 @@
+name: Unit Tests for Server
+
+on:
+  pull_request:
+    branches:
+      - staging
+    paths:
+      - 'server/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+      working-directory: prototypes/js
+
+    - name: Install Jest for server tests
+      run: npm install --save-dev jest @types/jest
+      working-directory: prototypes/js/server
+
+    - name: Run Unit Tests
+      run: npm run test:unit
+      working-directory: prototypes/js/server
+      env:
+        NODE_ENV: test
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        directory: prototypes/js/server/coverage
+        fail_ci_if_error: false
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+      working-directory: prototypes/js
+
+    - name: Run ESLint
+      run: npx eslint prototypes/js/server --ext .js
+      continue-on-error: true

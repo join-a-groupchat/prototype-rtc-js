@@ -1,5 +1,6 @@
 const username = prompt("Enter your username:");
 const socket = new WebSocket(`ws://${location.host}`);
+socket.binaryType = "text";
 
 const messages = document.getElementById("messages");
 const msgBox = document.getElementById("msgBox");
@@ -7,8 +8,17 @@ const sendBtn = document.getElementById("sendBtn");
 
 msgBox.focus();
 
-socket.onmessage = event => {
-  const data = JSON.parse(event.data);
+socket.onmessage = async event => {
+  let text;
+
+  if (event.data instanceof Blob) {
+    text = await event.data.text();
+  } else {
+    text = event.data;
+  }
+
+  const data = JSON.parse(text);
+
   const div = document.createElement("div");
   div.className = data.type;
 
@@ -20,6 +30,7 @@ socket.onmessage = event => {
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 };
+
 
 function sendMessage() {
   const text = msgBox.value.trim();
@@ -36,4 +47,8 @@ function sendMessage() {
 }
 
 sendBtn.onclick = sendMessage;
-msgBox.onkeydown = e => e.key === "Enter" && sendMessage();
+msgBox.onkeydown = e => {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
+};

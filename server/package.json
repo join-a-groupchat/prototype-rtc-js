@@ -1,0 +1,43 @@
+{
+  "name": "chat-server-tests",
+  "version": "1.0.0",
+  "description": "Test suite for the modular chat server",
+  "type": "module",
+  "scripts": {
+    "test": "set NODE_OPTIONS=--experimental-vm-modules && npx jest",
+    "test:unit": "set NODE_OPTIONS=--experimental-vm-modules && npx jest",
+    "test:coverage": "set NODE_OPTIONS=--experimental-vm-modules && npx jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.12",
+    "cross-env": "^7.0.3"
+  },
+  "jest": {
+    "preset": null,
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/tests"],
+    "testMatch": [
+      "**/__tests__/**/*.test.js",
+      "**/?(*.)+(spec|test).js"
+    ],
+    "collectCoverageFrom": [
+      "services/**/*.js",
+      "handlers/**/*.js",
+      "utils/**/*.js",
+      "config/**/*.js",
+      "!**/node_modules/**",
+      "!**/tests/**"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(uWebSockets.js|@uNetworking)/)"
+    ],
+    "testTimeout": 30000,
+    "verbose": true
+  }
+}
