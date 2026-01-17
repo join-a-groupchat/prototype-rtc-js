@@ -53,5 +53,6 @@ pm2 stop all
 
 Server Unit Tests
 ```bash
-npm test
+cd server
+npm run test:unit
 ```
