@@ -6,6 +6,9 @@ on:
       - staging
     paths:
       - 'server/**'
+  push:
+    branches:
+      - staging
 
 jobs:
   test:
