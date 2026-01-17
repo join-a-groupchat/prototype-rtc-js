@@ -4,7 +4,7 @@
  */
 
 import dotenv from 'dotenv';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 // Load environment variables
 dotenv.config({ path: '../config/.env' });

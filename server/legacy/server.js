@@ -32,7 +32,7 @@ uWS.App()
       (async () => {
         const messages = await redis.xRevRange("chat_stream", "+", "-", { COUNT: 10 });
         // Reverse to show oldest first
-        messages.reverse().forEach(msg => {
+        messages.toReversed().forEach(msg => {
           // msg.message is an object with user, message, timestamp fields
           const fields = msg.message || {};
           ws.send(JSON.stringify({ 

@@ -71,11 +71,11 @@ class MessageProcessor {
       const before = messageData.before;
       const limit = messageData.limit;
 
-      if (before && isNaN(new Date(before).getTime())) {
+      if (before && Number.isNaN(new Date(before).getTime())) {
         throw new Error('Invalid before timestamp');
       }
 
-      if (limit !== undefined && (isNaN(limit) || limit <= 0 || limit > 100)) {
+      if (limit !== undefined && (Number.isNaN(limit) || limit <= 0 || limit > 100)) {
         throw new Error('Invalid limit parameter');
       }
 
