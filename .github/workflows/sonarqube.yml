@@ -1,9 +1,10 @@
 name: SonarQube Scan
 
 on:
-  pull_request:
-    branches:
-      - staging
+  workflow_run:
+    workflows: ["Unit Tests for Server"]
+    types:
+      - completed
 
 jobs:
   scan:
@@ -20,14 +21,11 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --ignore-scripts
 
-      - name: Run tests with coverage
-        working-directory: server
-        run: npm run test:unit -- --coverage
-
-      - name: Fix lcov paths for SonarCloud
-        run: sed -i 's|\\|/|g' server/coverage/lcov.info
+      # Optional: run tests to generate coverage file
+      #- name: Run tests
+      #  run: npm test -- --coverage
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@v2
