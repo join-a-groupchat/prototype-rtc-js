@@ -1,0 +1,19 @@
+{
+  "name": "chat-server-tests",
+  "version": "1.0.0",
+  "description": "Test suite for the modular chat server",
+  "type": "module",
+  "scripts": {
+    "test": "npx jest",
+    "test:unit": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
+    "test:coverage": "npx jest --coverage"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "cross-env": "^7.0.3",
+    "jest": "^30.2.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
+}
