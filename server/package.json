@@ -4,9 +4,9 @@
   "description": "Test suite for the modular chat server",
   "type": "module",
   "scripts": {
-    "test": "set NODE_OPTIONS=--experimental-vm-modules && npx jest",
-    "test:unit": "set NODE_OPTIONS=--experimental-vm-modules && npx jest",
-    "test:coverage": "set NODE_OPTIONS=--experimental-vm-modules && npx jest --coverage"
+    "test": "npx jest",
+    "test:unit": "npx jest",
+    "test:coverage": "npx jest --coverage"
   },
   "devDependencies": {
     "jest": "^29.7.0",
