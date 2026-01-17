@@ -26,7 +26,9 @@ export const SERVER_CONFIG = {
     'http://localhost:5173', 
     'http://127.0.0.1:5173', 
     'http://localhost:9001', 
-    'http://127.0.0.1:9001'
+    'http://127.0.0.1:9001',
+    'https://rtc-frontend.pages.dev',
+    'https://jagc.web.id'
   ],
   WEBSOCKET: {
     COMPRESSION: 64, // uWS.SHARED_COMPRESSOR

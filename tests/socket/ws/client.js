@@ -31,7 +31,6 @@ socket.onmessage = async event => {
   messages.scrollTop = messages.scrollHeight;
 };
 
-
 function sendMessage() {
   const text = msgBox.value.trim();
   if (!text) return;
