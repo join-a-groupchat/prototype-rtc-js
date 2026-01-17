@@ -22,11 +22,11 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm ci
+      run: npm ci --ignore-scripts
       working-directory: prototypes/js
 
     - name: Install Jest for server tests
-      run: npm install --save-dev jest @types/jest
+      run: npm install --save-dev jest @types/jest --ignore-scripts
       working-directory: prototypes/js/server
 
     - name: Run Unit Tests
@@ -55,7 +55,7 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm ci
+      run: npm ci --ignore-scripts
       working-directory: prototypes/js
 
     - name: Run ESLint

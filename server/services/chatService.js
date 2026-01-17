@@ -105,7 +105,7 @@ class ChatService {
         sendToClient(ws, endMessage);
       } else {
         // Send each message to the requesting client
-        olderMessages.reverse().forEach(message => {
+        olderMessages.toReversed().forEach(message => {
           const formattedMessage = messageProcessor.formatHistoryMessage(message);
           sendToClient(ws, formattedMessage);
         });

@@ -2,10 +2,8 @@ import { Pool } from 'pg';
 import { POSTGRES_CONFIG } from '../config/index.js';
 
 class DatabaseService {
-  constructor() {
-    this.pool = null;
-    this.isConnected = false;
-  }
+  pool = null;
+  isConnected = false;
 
   /**
    * Initialize the PostgreSQL connection pool

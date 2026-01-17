@@ -210,9 +210,11 @@ async function main() {
 }
 
 // Start the application
-main().catch(async (error) => {
+try {
+  await main();
+} catch (error) {
   logger.error(`Fatal error: ${error.message}`);
   process.exit(1);
-});
+}
 
 export { ConsumerApp };

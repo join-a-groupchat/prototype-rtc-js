@@ -1,8 +1,8 @@
 import uWS from 'uWebSockets.js';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import dotenv from 'dotenv';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import { Pool  } from "pg";
 dotenv.config({ path: '../config/.env' });
 
@@ -57,7 +57,7 @@ function filterMessage(message) {
   
   // Create regex patterns for each filtered word with word boundaries
   FILTERED_WORDS.forEach(word => {
-    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    const regex = new RegExp(String.raw`\b${word}\b`, 'gi');
     filtered = filtered.replace(regex, '*'.repeat(word.length));
   });
   
@@ -116,22 +116,6 @@ uWS.App()
 
       ws.send(JSON.stringify({ type: 'system', message: 'Welcome to the chat! Version 1.0.1' }));
       broadcastLocal({ type: 'system', message: 'A new user joined the chat.' });
-
-      // Load last 10 messages from Redis Streams
-      /*(async () => {
-        const messages = await redis.xRevRange("chat_stream", "+", "-", { COUNT: 10 });
-        messages.reverse().forEach(msg => {
-          // Check if WebSocket is still connected before sending
-          if (clients.has(ws)) {
-            const fields = msg.message || {};
-            ws.send(JSON.stringify({ 
-              type: 'chat', 
-              username: fields.user, 
-              message: fields.message 
-            }));
-          }
-        });
-      })();*/
 
       // Load last 50 messages from postgres
       (async () => {

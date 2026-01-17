@@ -57,7 +57,7 @@ class WebSocketHandler {
       console.log(`🔃 Loaded ${recentMessages.length} messages from PostgreSQL`);
 
       // Send messages to the new client (oldest first)
-      recentMessages.reverse().forEach(message => {
+      recentMessages.toReversed().forEach(message => {
         if (this.clients.has(ws)) {
           const formattedMessage = messageProcessor.formatHistoryMessage(message);
           ws.send(JSON.stringify(formattedMessage));

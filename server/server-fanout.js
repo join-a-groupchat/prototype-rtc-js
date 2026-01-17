@@ -1,12 +1,11 @@
 import uWS from 'uWebSockets.js';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 // Import our modular services
 import { SERVER_CONFIG } from './config/index.js';
 import { redisService } from './services/redis.js';
 import { databaseService } from './services/database.js';
-import { messageProcessor } from './services/messageProcessor.js';
 import { chatService } from './services/chatService.js';
 import { webSocketHandler } from './handlers/websocket.js';
 import { logger } from './utils/logger.js';
@@ -98,4 +97,4 @@ process.on('SIGINT', async () => {
 });
 
 // Start the server
-startServer();
+await startServer();

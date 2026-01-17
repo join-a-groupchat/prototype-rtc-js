@@ -11,10 +11,8 @@ import { logger } from '../utils/logger.js';
  * Redis service class
  */
 export class RedisService {
-  constructor() {
-    this.client = null;
-    this.isConnected = false;
-  }
+  client = null;
+  isConnected = false;
 
   /**
    * Initialize Redis client and connect
@@ -66,7 +64,7 @@ export class RedisService {
    * Read messages from the stream
    * @param {number} count - Number of messages to read
    * @param {number} blockMs - Block timeout in milliseconds
-   * @returns {Array} Array of messages
+   * @returns {Promise<Array>} Array of messages
    */
   async readMessages(count = 500, blockMs = 10) {
     try {
@@ -107,7 +105,7 @@ export class RedisService {
    * Recover pending messages (messages that were delivered but not ACKed)
    * @param {number} minIdleMs - Minimum idle time in milliseconds
    * @param {number} count - Number of messages to claim
-   * @returns {Array} Array of recovered messages
+   * @returns {Promise<Array>} Array of recovered messages
    */
   async recoverPendingMessages(minIdleMs = 10000, count = 200) {
     logger.info(`Recovering pending messages for group=${redisConfig.group}, consumer=${redisConfig.consumer}`);

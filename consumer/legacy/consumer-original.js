@@ -2,7 +2,7 @@ import { createClient } from "redis";
 import { Pool } from "pg";
 import pLimit from "p-limit";
 import dotenv from 'dotenv';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 dotenv.config({ path: '../config/.env' });
 
 // use consumer groups because we can have multiple consumers
@@ -107,8 +107,8 @@ async function flushToDbAndAck(msgs) {
     await pgPool.query(sql, values);
     await pgPool.query('COMMIT');
   } catch (err) {
-    await pgPool.query('ROLLBACK').catch((rollbackErr) => {
-      console.error("DB ROLLBACK error:", rollbackErr?.message || rollbackErr);
+    await pgPool.query('ROLLBACK').catch((error_) => {
+      console.error("DB ROLLBACK error:", error_?.message || error_);
     });
     console.error("DB insert error, requeueing batch:", err.message || err);
     buffer = msgs.concat(buffer);
@@ -216,4 +216,4 @@ process.on('SIGINT', async () => {
 
 // run recovery first, then enter loop
 await recoverPending();
-loop();
+await loop();
