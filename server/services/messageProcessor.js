@@ -75,8 +75,11 @@ class MessageProcessor {
         throw new Error('Invalid before timestamp');
       }
 
-      if (limit !== undefined && (Number.isNaN(limit) || limit <= 0 || limit > 100)) {
-        throw new Error('Invalid limit parameter');
+      if (limit !== undefined) {
+        const numericLimit = Number(limit);
+        if (Number.isNaN(numericLimit) || numericLimit <= 0 || numericLimit > 100) {
+          throw new Error('Invalid limit parameter');
+        }
       }
 
       return {
