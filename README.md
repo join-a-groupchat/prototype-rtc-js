@@ -1,3 +1,5 @@
+<img src="https://i.imgur.com/8Z5wMKO.png" height="64">
+
 # Real Time Chat
 
 A real-time, scalable group chat application built with uWebSockets.js, Redis, and PostgreSQL. This application demonstrates enterprise-grade resilience patterns including distributed message processing, automatic failover, graceful shutdown, and robust error recovery mechanisms.
@@ -170,3 +172,7 @@ npm run test:unit
 - **pg**: PostgreSQL client with connection pooling
 - **p-limit**: Concurrency control for batch operations
 - **dotenv**: Environment variable management
+
+## Acknowledgments
+
+This project was created by Robin Hannan, as an individual research assignment for Fontys University of Applied Sciences.
